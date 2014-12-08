@@ -11,11 +11,11 @@ import XCTest
 
 class DataManipTests: XCTestCase {
     
-    var collecionOdTestData:[MobileCarouselViewerModel] = []
+    var jsonStructure:[TopLevelCollection] = []
     
     override func setUp() {
         super.setUp()
-        collecionOdTestData = generateDataSet("id", numberOfItems: 10)
+        jsonStructure = generateDataSet("id", numberOfItems: 10)
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
@@ -24,27 +24,27 @@ class DataManipTests: XCTestCase {
         super.tearDown()
     }
     
-    func generateDataSet(articleIDBase:String, numberOfItems:Int) ->[MobileCarouselViewerModel]{
+    func generateDataSet(articleIDBase:String, numberOfItems:Int) ->[TopLevelCollection]{
         
-        var accModel:Array<MobileCarouselViewerModel> = []
+        var accModel:Array<TopLevelCollection> = []
         for n in 0..<1{
-            var accSection:Array<MobileCarouselViewerSectionModel> = []
+            var accSection:Array<OneStepDownCollection> = []
             for m in 0..<numberOfItems{
-                var accItem:Array<MobileCarouselViewerItemModel> = []
+                var accItem:Array<TwoStepDownCollection> = []
                 for j in 0..<numberOfItems{
-                    var accDot:Array<ImageControlsModel> = []
+                    var accDot:Array<ThreeStepDownCollection> = []
                     for i in 0 ..< numberOfItems{
                         let number = String (n) + String(m) + String(j) + String(i)
-                        let dot = ImageControlsModel(articleID: articleIDBase + number)
+                        let dot = ThreeStepDownCollection(articleID: articleIDBase + number)
                         accDot.append(dot)
                     }
-                    let item = MobileCarouselViewerItemModel(dots: accDot)
+                    let item = TwoStepDownCollection(dots: accDot)
                     accItem.append(item)
                 }
-                let section = MobileCarouselViewerSectionModel(items: accItem)
+                let section = OneStepDownCollection(items: accItem)
                 accSection.append(section)
             }
-            let model = MobileCarouselViewerModel(sections: accSection)
+            let model = TopLevelCollection(sections: accSection)
             accModel.append(model)
         }
         return accModel
@@ -59,11 +59,10 @@ class DataManipTests: XCTestCase {
     }
     
     func testBenchExample() {
-        let test1 = collecionOdTestData.reduce([]){$0 + $1.sections}.reduce([]) { $0 + $1.items }.reduce([]){$0 + $1.dots}.map({$0.articleID})
+        let test1 = jsonStructure.reduce([]){$0 + $1.sections}.reduce([]) { $0 + $1.items }.reduce([]){$0 + $1.dots}.map({$0.articleID})
     }
     
     func testPerformanceExample() {
-        // This is an example of a performance test case.
         self.measureBlock() {
             self.testBenchExample()
         }
