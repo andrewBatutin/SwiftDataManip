@@ -10,15 +10,15 @@ import Foundation
 
 
 public struct TopLevelCollection{
-    let sections:[OneStepDownCollection]
+    let oneStepDownCollection:[OneStepDownCollection]
 }
 
 public struct OneStepDownCollection{
-    let items:[TwoStepDownCollection]
+    let twoStepDownCollection:[TwoStepDownCollection]
 }
 
 public struct TwoStepDownCollection{
-    let dots:[ThreeStepDownCollection]
+    let threeStepDownCollection:[ThreeStepDownCollection]
 }
 
 public struct ThreeStepDownCollection{

@@ -27,7 +27,7 @@ class DataManipTests: XCTestCase {
     func generateDataSet(articleIDBase:String, numberOfItems:Int) ->[TopLevelCollection]{
         
         var accModel:Array<TopLevelCollection> = []
-        for n in 0..<1{
+        for n in 0..<numberOfItems{
             var accSection:Array<OneStepDownCollection> = []
             for m in 0..<numberOfItems{
                 var accItem:Array<TwoStepDownCollection> = []
@@ -38,13 +38,13 @@ class DataManipTests: XCTestCase {
                         let dot = ThreeStepDownCollection(articleID: articleIDBase + number)
                         accDot.append(dot)
                     }
-                    let item = TwoStepDownCollection(dots: accDot)
+                    let item = TwoStepDownCollection(threeStepDownCollection: accDot)
                     accItem.append(item)
                 }
-                let section = OneStepDownCollection(items: accItem)
+                let section = OneStepDownCollection(twoStepDownCollection: accItem)
                 accSection.append(section)
             }
-            let model = TopLevelCollection(sections: accSection)
+            let model = TopLevelCollection(oneStepDownCollection: accSection)
             accModel.append(model)
         }
         return accModel
@@ -52,14 +52,15 @@ class DataManipTests: XCTestCase {
     
     func testExample() {
         let coll = generateDataSet("id", numberOfItems: 3)
-        let test1 = coll.reduce([]){$0 + $1.sections}.reduce([]) { $0 + $1.items }.reduce([]){$0 + $1.dots}.map({$0.articleID})
+        let test1 = coll.reduce([]){$0 + $1.oneStepDownCollection}.reduce([]) { $0 + $1.twoStepDownCollection }.reduce([]){$0 + $1.threeStepDownCollection}.map({$0.articleID})
         println(test1)
         XCTAssertEqual(test1.count, 81, "should have 81 elem")
         
     }
     
     func testBenchExample() {
-        let test1 = jsonStructure.reduce([]){$0 + $1.sections}.reduce([]) { $0 + $1.items }.reduce([]){$0 + $1.dots}.map({$0.articleID})
+        let test1 = jsonStructure.reduce([]){$0 + $1.oneStepDownCollection}.reduce([]) { $0 + $1.twoStepDownCollection }.reduce([]){$0 + $1.threeStepDownCollection}.map({$0.articleID})
+        println(test1.count)
     }
     
     func testPerformanceExample() {
