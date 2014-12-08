@@ -1,0 +1,4 @@
+SwiftDataManip
+==============
+
+Swift data manipulation 
